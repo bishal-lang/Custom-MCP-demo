@@ -2,7 +2,7 @@ import {
   createSalesmsgContact,
   listSalesmsgMessages,
   sendSalesmsgSMS
-} from "../services/salesmsg-client.js";
+} from "../services/salesmsg.services.js";
 
 export async function salesmsgSendSmsTool(
   args: {

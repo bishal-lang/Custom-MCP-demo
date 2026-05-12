@@ -2,7 +2,7 @@ import {
   createRingCentralContact,
   getRingCentralCallLogs,
   sendRingCentralSMS
-} from "../services/ringcentral-client.js";
+} from "../services/ringcentral.services.js";
 
 export async function ringcentralSendSmsTool(
   args: {

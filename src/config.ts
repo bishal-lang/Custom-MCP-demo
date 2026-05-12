@@ -2,25 +2,39 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
+function required(value: string | undefined, name: string) {
+  if(!value) {
+    throw new Error(
+      `Missing environment variable: ${name}`
+    );
+  }   
+  return value
+}
+
 export const config = {
-  salesmsgApiKey:
-    process.env.SALESMESSAGE_API_KEY || "",
+  salesmsgApiKey: required(
+    process.env.SALESMESSAGE_API_KEY, "SALESMESSAGE_API_KEY"
+  ),
 
   ringcentral: {
-    clientId:
-      process.env.RINGCENTRAL_CLIENT_ID || "",
+    clientId: required(
+      process.env.RINGCENTRAL_CLIENT_ID, "RINGCENTRAL_CLIENT_ID"
+    ),
 
-    clientSecret:
-      process.env.RINGCENTRAL_CLIENT_SECRET || "",
+    clientSecret: required(
+      process.env.RINGCENTRAL_CLIENT_SECRET, "RINGCENTRAL_CLIENT_SECRET"
+    ),
 
-    server:
-      process.env.RINGCENTRAL_SERVER_URL ||
-      "https://platform.ringcentral.com",
+    server: required(
+      process.env.RINGCENTRAL_SERVER_URL,"https://platform.ringcentral.com"
+    ),
 
-    jwt:
-      process.env.RINGCENTRAL_JWT || "",
+    jwt: required(
+      process.env.RINGCENTRAL_JWT, "RINGCENTRAL_JWT"
+    ),
 
-    fromNumber:
-      process.env.RINGCENTRAL_FROM_NUMBER || ""
+    fromNumber: required(
+      process.env.RINGCENTRAL_FROM_NUMBER, "RINGCENTRAL_FROM_NUMBER"
+    )
   }
 };
