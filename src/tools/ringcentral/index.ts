@@ -7,6 +7,7 @@ import { createVideoMeetingTool } from "./create-video-meeting.js";
 import { sendFaxTool } from "./send-fax.js";
 import { apiRequestTool } from "./api-request.js";
 import { MCPTool } from "../../types/mcp.js";
+import { generateRingoutTool } from "./generate-ringout.js";
 
 export const ringcentralTools: MCPTool[] = [
   sendSmsMmsTool,
@@ -16,5 +17,6 @@ export const ringcentralTools: MCPTool[] = [
   createPostTool,
   createVideoMeetingTool,
   sendFaxTool,
-  apiRequestTool
+  apiRequestTool,
+  generateRingoutTool
 ];

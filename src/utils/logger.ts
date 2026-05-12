@@ -13,7 +13,7 @@ function format(level: LogLevel, message: string, meta?: unknown) {
 
 export const logger = {
   info(message: string, meta?: unknown) {
-    console.log(format("info", message, meta));
+    console.error(format("info", message, meta));
   },
 
   warn(message: string, meta?: unknown) {

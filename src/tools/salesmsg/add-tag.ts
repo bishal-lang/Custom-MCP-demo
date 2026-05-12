@@ -14,7 +14,6 @@ export const addTagTool: MCPTool = {
     required: ["contactId", "tag"]
   },
   handler: async (args) => {
-    console.log("CONFIG:", config);
     return addTag(args.contactId, args.tag);
   }
 };

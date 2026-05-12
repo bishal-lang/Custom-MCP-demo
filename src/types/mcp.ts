@@ -5,6 +5,7 @@ export type MCPTool = {
     type: "object";
     properties: Record<string, any>;
     required?: string[];
+    additionalProperties?: boolean
   };
   handler: (args: any) => Promise<any>;
 };
