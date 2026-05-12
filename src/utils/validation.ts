@@ -1,4 +1,5 @@
 import { ValidationError } from "./errors.js";
+import AjvImport from "ajv";
 
 /**
  * Ensures required fields exist in tool args
@@ -54,4 +55,28 @@ export function assertStringArray(
       );
     }
   }
+}
+
+
+
+const Ajv = (AjvImport as unknown as { default?: unknown }).default ?? AjvImport;
+
+const ajv = new (Ajv as any)();
+
+export function validateSchema<T>(
+  schema: object,
+  data: unknown
+): T {
+  const validate = ajv.compile(schema);
+
+  const valid = validate(data);
+
+  if (!valid) {
+    throw new Error(
+      "Validation error: " +
+        JSON.stringify(validate.errors, null, 2)
+    );
+  }
+
+  return data as T;
 }

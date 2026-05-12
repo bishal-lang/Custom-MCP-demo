@@ -1,5 +1,6 @@
 import type { MCPTool } from "../../types/mcp.js";
 import { addTag } from "../../services/salesmsg.services.js";
+import { config } from "process";
 
 export const addTagTool: MCPTool = {
   name: "salesmsg_add_tag",
@@ -13,6 +14,7 @@ export const addTagTool: MCPTool = {
     required: ["contactId", "tag"]
   },
   handler: async (args) => {
+    console.log("CONFIG:", config);
     return addTag(args.contactId, args.tag);
   }
 };

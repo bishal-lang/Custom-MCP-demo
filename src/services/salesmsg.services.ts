@@ -7,57 +7,101 @@ function assertConfig() {
   }
 }
 
+assertConfig();
+
 export const salesmsgClient = axios.create({
   baseURL: "https://api.salesmessage.com/pub/v2.2",
   headers: {
-    get Authorization() {
-      assertConfig();
-      return `Bearer ${config.salesmsgApiKey}`;
-    },
+    Authorization: `Bearer ${config.salesmsgApiKey}`,
     "Content-Type": "application/json"
   }
 });
 
+async function smsRequest<T>(
+  fn: () => Promise<T>,
+  attempt = 1
+): Promise<T> {
+  try {
+    return await fn();
+  } catch (err: any) {
+    const status = err?.response?.status;
+
+    const isRetryable =
+      status === 429 ||
+      status >= 500 ||
+      !status;
+
+    /**
+     * Retry transient failures
+     */
+    if (isRetryable && attempt < 3) {
+      const delay =
+        300 * Math.pow(2, attempt);
+
+      await new Promise((resolve) =>
+        setTimeout(resolve, delay)
+      );
+
+      return smsRequest(
+        fn,
+        attempt + 1
+      );
+    }
+
+    const data = err?.response?.data;
+
+    const message =
+      data?.message ||
+      data?.error ||
+      err?.message ||
+      "Unknown Salesmsg error";
+
+    throw new Error(
+      `Salesmsg Error (${status ?? "no-status"}): ${message}`
+    );
+  }
+}
+
 /* ---------------- Messaging ---------------- */
 
 export async function sendTextMessage(phone: string, message: string) {
-  const res = await salesmsgClient.post("/messages", {
-    phoneNumber: phone,
-    message
-  });
-
-  return res.data;
+  return smsRequest(() =>
+    salesmsgClient
+      .post("/messages", { phoneNumber: phone, message })
+      .then(r => r.data)
+  );
 }
 
 export async function sendGroupText(phones: string[], message: string) {
-  const res = await salesmsgClient.post("/messages/group", {
-    phoneNumbers: phones,
-    message
-  });
-
-  return res.data;
+  return smsRequest(() =>
+    salesmsgClient
+      .post("/messages/group", {
+        phoneNumbers: phones,
+        message
+      })
+      .then(r => r.data)
+  );
 }
 
 export async function sendRinglessVoicemail(phone: string, audioUrl: string) {
-  const res = await salesmsgClient.post("/voicemail/ringless", {
-    phoneNumber: phone,
-    audioUrl
-  });
-
-  return res.data;
+  return smsRequest(() =>
+    salesmsgClient
+      .post("/voicemail/ringless", {
+        phoneNumber: phone,
+        audioUrl
+      })
+      .then(r => r.data)
+  );
 }
 
 /* ---------------- Contacts ---------------- */
 
 export async function findContact(phone: string) {
-  const res = await salesmsgClient.get(
-    "/contacts/search",
-    {
-      params: { phone }
-    }
+  return smsRequest(() =>
+    salesmsgClient
+      .get("/contacts/search", { params: { phone } })
+      .then(r => r.data)
   );
-
-  return res.data;
 }
 
 export async function createContact(
@@ -65,73 +109,77 @@ export async function createContact(
   lastName: string,
   phone: string
 ) {
-  const res = await salesmsgClient.post("/contacts", {
-    firstName,
-    lastName,
-    phoneNumber: phone
-  });
-
-  return res.data;
+  return smsRequest(() =>
+    salesmsgClient
+      .post("/contacts", {
+        firstName,
+        lastName,
+        phoneNumber: phone
+      })
+      .then(r => r.data)
+  );
 }
 
 export async function upsertContact(
   phone: string,
   data: Record<string, unknown>
 ) {
-  const res = await salesmsgClient.post("/contacts/upsert", {
-    phoneNumber: phone,
-    ...data
-  });
-
-  return res.data;
+  return smsRequest(() =>
+    salesmsgClient
+      .post("/contacts/upsert", {
+        phoneNumber: phone,
+        ...data
+      })
+      .then(r => r.data)
+  );
 }
 
 /* ---------------- Tags ---------------- */
 
 export async function addTag(contactId: string, tag: string) {
-  const res = await salesmsgClient.post(
-    `/contacts/${contactId}/tags`,
-    { tag }
+  return smsRequest(() =>
+    salesmsgClient
+      .post(`/contacts/${contactId}/tags`, { tag })
+      .then(r => r.data)
   );
-
-  return res.data;
 }
 
 export async function removeTag(contactId: string, tag: string) {
-  const res = await salesmsgClient.delete(
-    `/contacts/${contactId}/tags/${encodeURIComponent(tag)}`
+  return smsRequest(() =>
+    salesmsgClient
+      .delete(
+        `/contacts/${contactId}/tags/${encodeURIComponent(tag)}`
+      )
+      .then(r => r.data)
   );
-
-  return res.data;
 }
 
 /* ---------------- Notes ---------------- */
 
 export async function createNote(contactId: string, note: string) {
-  const res = await salesmsgClient.post(
-    `/contacts/${contactId}/notes`,
-    { note }
+  return smsRequest(() =>
+    salesmsgClient
+      .post(`/contacts/${contactId}/notes`, { note })
+      .then(r => r.data)
   );
-
-  return res.data;
 }
 
 /* ---------------- Utilities ---------------- */
 
 export async function phoneLookup(phone: string) {
-  const res = await salesmsgClient.get("/lookup", {
-    params: { phone }
-  });
-
-  return res.data;
+  return smsRequest(() =>
+    salesmsgClient
+      .get("/lookup", { params: { phone } })
+      .then(r => r.data)
+  );
 }
 
 export async function optOutContact(phone: string) {
-  const res = await salesmsgClient.post("/opt-out", {
-    phoneNumber: phone
-  });
-
-  return res.data;
+  return smsRequest(() =>
+    salesmsgClient
+      .post("/opt-out", { phoneNumber: phone })
+      .then(r => r.data)
+  );
 }
 
 /* ---------------- Generic ---------------- */
@@ -141,11 +189,9 @@ export async function apiRequest(
   endpoint: string,
   data?: unknown
 ) {
-  const res = await salesmsgClient.request({
-    method,
-    url: endpoint,
-    data
-  });
-
-  return res.data;
+  return smsRequest(() =>
+    salesmsgClient
+      .request({ method, url: endpoint, data })
+      .then(r => r.data)
+  );
 }

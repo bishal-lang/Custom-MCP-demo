@@ -9,32 +9,32 @@ importers:
   .:
     dependencies:
       '@modelcontextprotocol/sdk':
-        specifier: ^1.29.0
+        specifier: ^1.12.0
         version: 1.29.0(zod@3.25.76)
       '@ringcentral/sdk':
         specifier: ^5.0.11
         version: 5.0.11
+      ajv:
+        specifier: ^8.20.0
+        version: 8.20.0
       axios:
-        specifier: ^1.16.0
+        specifier: ^1.9.0
         version: 1.16.0
       dotenv:
-        specifier: ^17.4.2
-        version: 17.4.2
-      express:
-        specifier: ^5.2.1
-        version: 5.2.1
+        specifier: ^16.5.0
+        version: 16.6.1
       zod:
-        specifier: ^3.25.76
+        specifier: ^3.25.28
         version: 3.25.76
     devDependencies:
       '@types/node':
-        specifier: ^25.7.0
-        version: 25.7.0
+        specifier: ^22.15.17
+        version: 22.19.19
       tsx:
         specifier: ^4.21.0
         version: 4.21.0
       typescript:
-        specifier: ^5.9.3
+        specifier: ^5.8.3
         version: 5.9.3
 
 packages:
@@ -215,8 +215,8 @@ packages:
     resolution: {integrity: sha512-Hq6ZUL06CxHGH7jr6D6+eOOdSUFwO5VWPpAbwgyYFGoGyV71nIyZ/qvvnceJbB7E8GOfO/GmYBdAthidNYOCQQ==}
     engines: {node: '>=4'}
 
-  '@types/node@25.7.0':
-    resolution: {integrity: sha512-z+pdZyxE+RTQE9AcboAZCb4otwcrvgHD+GlBpPgn0emDVt0ohrTMhAwlr2Wd9nZ+nihhYFxO2pThz3C5qSu2Eg==}
+  '@types/node@22.19.19':
+    resolution: {integrity: sha512-dyh/xO2Fh5bYrfWaaqGrRQQGkNdmYw6AmaAUvYeUMNTWQtvb796ikLdmTchRmOlOiIJ1TDXfWgVx1QkUlQ6Hew==}
 
   accepts@2.0.0:
     resolution: {integrity: sha512-5cvg6CtKwfgdmVqY1WIiXKc3Q1bkRqGLi+2W/6ao+6Y7gu/RCwRuAhGEzh5B4KlszSuTLgZYuqFqo5bImjNKng==}
@@ -303,8 +303,8 @@ packages:
   dom-storage@2.1.0:
     resolution: {integrity: sha512-g6RpyWXzl0RR6OTElHKBl7nwnK87GUyZMYC7JWsB/IA73vpqK2K6LT39x4VepLxlSsWBFrPVLnsSR5Jyty0+2Q==}
 
-  dotenv@17.4.2:
-    resolution: {integrity: sha512-nI4U3TottKAcAD9LLud4Cb7b2QztQMUEfHbvhTH09bqXTxnSie8WnjPALV/WMCrJZ6UV/qHJ6L03OqO3LcdYZw==}
+  dotenv@16.6.1:
+    resolution: {integrity: sha512-uBq4egWHTcTt33a72vpSG0z3HnPuIl6NqYcTrKEg2azoEyl2hpW0zqlxysq2pK9HlDIHyHyakeYaYnSAwd8bow==}
     engines: {node: '>=12'}
 
   dunder-proto@1.0.1:
@@ -644,8 +644,8 @@ packages:
     engines: {node: '>=14.17'}
     hasBin: true
 
-  undici-types@7.21.0:
-    resolution: {integrity: sha512-w9IMgQrz4O0YN1LtB7K5P63vhlIOvC7opSmouCJ+ZywlPAlO9gIkJ+otk6LvGpAs2wg4econaCz3TvQ9xPoyuQ==}
+  undici-types@6.21.0:
+    resolution: {integrity: sha512-iwDZqg0QAGrg9Rav5H4n0M64c3mkR59cJ6wQp+7C4nI0gsmExaedaYLNO44eT4AtBBwjbTiGPMlt2Md0T9H9JQ==}
 
   unpipe@1.0.0:
     resolution: {integrity: sha512-pjy2bYhSsufwWlKwPc+l3cN7+wuJlK6uz0YdJEOlQDbl6jo/YlPi4mb8agUkVC8BF7V8NuzeyPNqRksA3hztKQ==}
@@ -791,9 +791,9 @@ snapshots:
     transitivePeerDependencies:
       - encoding
 
-  '@types/node@25.7.0':
+  '@types/node@22.19.19':
     dependencies:
-      undici-types: 7.21.0
+      undici-types: 6.21.0
 
   accepts@2.0.0:
     dependencies:
@@ -880,7 +880,7 @@ snapshots:
 
   dom-storage@2.1.0: {}
 
-  dotenv@17.4.2: {}
+  dotenv@16.6.1: {}
 
   dunder-proto@1.0.1:
     dependencies:
@@ -1252,7 +1252,7 @@ snapshots:
 
   typescript@5.9.3: {}
 
-  undici-types@7.21.0: {}
+  undici-types@6.21.0: {}
 
   unpipe@1.0.0: {}
 

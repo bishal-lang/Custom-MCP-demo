@@ -13,7 +13,7 @@ import { createTextResponse } from "./utils/response.js";
 
 const toolMap = new Map(
   allTools.map((t) => [
-    t.definition.name,
+    t.name,
     t.handler
   ])
 );
@@ -38,7 +38,7 @@ server.setRequestHandler(
   ListToolsRequestSchema,
   async () => ({
     tools: allTools.map(
-      (t) => t.definition
+      (t) => t
     )
   })
 );
