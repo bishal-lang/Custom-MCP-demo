@@ -1,6 +1,5 @@
 import type { MCPTool } from "../../types/mcp.js";
 import { addTag } from "../../services/salesmsg.services.js";
-import { config } from "process";
 
 export const addTagTool: MCPTool = {
   name: "salesmsg_add_tag",

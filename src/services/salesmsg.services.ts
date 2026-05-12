@@ -134,6 +134,30 @@ export async function upsertContact(
   );
 }
 
+export async function findMember(params: {
+  name?: string;
+  email?: string;
+  phone?: string;
+}) {
+  const { phone } = params;
+
+  // 1. Primary lookup (most reliable)
+  if (phone) {
+    const res = await salesmsgClient.get("/contacts/search", {
+      params: { phone }
+    });
+
+    return res.data;
+  }
+
+  // 2. If API supports email/name search in future, plug here
+  // (kept intentionally API-pure; no MCP logic here)
+
+  throw new Error(
+    "Salesmsg findMember currently requires at least a phone number"
+  );
+}
+
 /* ---------------- Tags ---------------- */
 
 export async function addTag(contactId: string, tag: string) {

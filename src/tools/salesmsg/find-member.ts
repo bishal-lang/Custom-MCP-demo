@@ -1,3 +1,4 @@
+import { findMember } from "../../services/salesmsg.services.js";
 import type { MCPTool } from "../../types/mcp.js";
 
 export const findMemberTool: MCPTool = {
@@ -6,11 +7,18 @@ export const findMemberTool: MCPTool = {
   inputSchema: {
     type: "object",
     properties: {
-      query: { type: "string" }
+      name: {type: "string"},
+      email: {type: "string"},
+      phone: {type: "string"}
     },
-    additionalProperties: false
+    additionalProperties: false,
+    anyOf: [
+    { required: ["name"] },
+    { required: ["email"] },
+    { required: ["phone"] }
+  ]
   },
-  handler: async () => {
-    return { message: "Not implemented in API wrapper yet" };
+  handler: async (args: any) => {
+    return await findMember(args);
   }
 };

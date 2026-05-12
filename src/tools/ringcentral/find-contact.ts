@@ -7,12 +7,18 @@ export const findContactTool: MCPTool = {
   inputSchema: {
     type: "object",
     properties: {
-      query: { type: "string" }
+      name: {type: "string"},
+      email: {type: "string"},
+      phone: {type: "string"}
     },
-    required: ["query"],
-    additionalProperties: false
+    additionalProperties: false,
+    anyOf: [
+    { required: ["name"] },
+    { required: ["email"] },
+    { required: ["phone"] }
+  ]
   },
   handler: async (args) => {
-    return findContact(args.query);
+    return findContact(args.name);
   }
 };

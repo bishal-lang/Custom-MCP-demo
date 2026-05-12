@@ -9,6 +9,7 @@ import { apiRequestTool } from "./api-request.js";
 import { MCPTool } from "../../types/mcp.js";
 import { generateRingoutTool } from "./generate-ringout.js";
 
+
 export const ringcentralTools: MCPTool[] = [
   sendSmsMmsTool,
   createContactTool,
